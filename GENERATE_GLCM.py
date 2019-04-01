@@ -9,15 +9,16 @@ MAX_BITS = 12
 MIN_DECIMATION = 1
 MAX_DECIMATION = 1
 
-PATH_TO_IMAGES_FOLDER = '../Dataset-Fluxo/12b/'
+PATH_TO_IMAGES_FOLDER = 'C:/Users/lukka/Desktop/Datasets/Dataset-Fluxo/12b/'
 PATH_TO_SAVE_FEATURES = 'GLCM/EXP_01/'
 
 for nbits in range(MIN_BITS, MAX_BITS + 1):
     for k in range(MIN_DECIMATION, MAX_DECIMATION + 1):
         listGLCM = []
-        for quantity in [[1, 353], [2, 382], [3, 379], [4, 70]]:
+        for quantity in [[1, 352], [2, 382], [3, 378], [4, 382], [5, 376], [6, 360], [7, 361]]:
             for image in range(1, quantity[1] + 1):
-                img = np.array([np.loadtxt(PATH_TO_IMAGES_FOLDER+"C{0}/c{0}_{1}.csv".format(quantity[0], image),dtype=int, delimiter=",").T])
+                img = np.array([np.loadtxt(PATH_TO_IMAGES_FOLDER + "C{0}/c{0}_{1}.csv".format(quantity[0], image),
+                                           dtype=int, delimiter=",").T])
                 """ DECIMATION """
                 # klist = [x for x in range(0, img.shape[0], k)]
                 # klist2 = [x for x in range(0, img.shape[1], k)]
@@ -38,9 +39,9 @@ for nbits in range(MIN_BITS, MAX_BITS + 1):
 
                 """ ADDING FEATURES IN ARRAY FOR SAVE IN FILE """
                 listGLCM.append(oGlcm.exportToClassfier("Class " + str(quantity[0])))
-                print (nbits, k, quantity[0], image)
+                print(nbits, k, quantity[0], image)
                 listGLCM2 = np.array(listGLCM)
 
                 """ SAVE FILE WITH FEATURES, DECIMATION WITH STEP = k AND CORRELATION MATRIX WITH nbits BITS. """
                 np.savetxt(PATH_TO_SAVE_FEATURES + "FEATURES_M{}_CM{}b.txt".format(k, nbits), listGLCM2, fmt="%s",
-                   delimiter=',')
+                           delimiter=',')
