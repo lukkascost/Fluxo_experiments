@@ -12,9 +12,9 @@ labels = np.loadtxt("../GLCM/EXP_01/FEATURES_M1_CM8b.txt", usecols=-1, delimiter
 
 """ Unconditional analysis Mean, std and skewness results.
 """
-resultTable = np.zeros((3, 24))
+resultTable = np.zeros((3, attributes.shape[1]))
 strres = ""
-for i in range(24):
+for i in range(attributes.shape[1]):
     resultTable[0, i] = np.mean(attributes[:, i])
     resultTable[1, i] = np.std(attributes[:, i])
     resultTable[2, i] = sp.skew(attributes[:, i])
@@ -24,24 +24,24 @@ print (strres)
 
 """ class conditional analysis Mean, std and skewness results per class.
 """
-resultTable = np.zeros((7, 3, 24))
-for j in [1, 2, 3, 5, 6, 7]:
-    for i in range(24):
+resultTable = np.zeros((7, 3, attributes.shape[1]))
+for j in [1, 2, 3, 4 ,5, 6, 7]:
+    for i in range(attributes.shape[1]):
         data = attributes[labels == "Class "+str(j), i]
         resultTable[j - 1, 0, i] = np.mean(data)
         resultTable[j - 1, 1, i] = np.std(data)
         resultTable[j - 1, 2, i] = sp.skew(data)
 
-for i in range(24):
+for i in range(attributes.shape[1]):
     strres = " \\textit {} ".format(LABELS[i])
-    for j in [1, 2, 3, 5, 6, 7]:
+    for j in [1, 2, 3, 4 ,5, 6, 7]:
         strres += "& {:.02f}$\pm${:.04f}".format(resultTable[j - 1, 0, i],resultTable[j - 1, 1, i])
     strres += "\\\\ "
     print (strres)
 print
-for i in range(24):
+for i in range(attributes.shape[1]):
     strres = " \\textit{} ".format(LABELS[i])
-    for j in [1, 2, 3, 5, 6, 7]:
+    for j in [1, 2, 3, 4 ,5, 6, 7]:
         strres += "& {:.04f}".format(resultTable[j - 1, 2, i])
     strres += "\\\\ "
     print (strres)
@@ -50,10 +50,10 @@ for i in range(24):
 """ Unconditional bi-variate analysis
 """
 strres = ""
-covTable = np.zeros((24, 24))
-for i in range(24):
+covTable = np.zeros((attributes.shape[1], attributes.shape[1]))
+for i in range(attributes.shape[1]):
     strres += "\n\\textit{}".format(LABELS[i])
-    for j in range(24):
+    for j in range(attributes.shape[1]):
         covTable[i, j] = np.corrcoef(attributes[:, i], attributes[:, j])[1, 0]
         strres += "&{:.04f}".format(covTable[i, j])
     strres += "\\\\"
