@@ -9,8 +9,8 @@ MAX_BITS = 8
 MIN_DECIMATION = 1
 MAX_DECIMATION = 1
 
-PATH_TO_IMAGES_FOLDER = 'D:/Repository/Dataset-Fluxo/Won_data/'
-PATH_TO_SAVE_FEATURES = 'GLCM/EXP_02/'
+PATH_TO_IMAGES_FOLDER = 'D:/Repository/Dataset-Fluxo/time-frequency/'
+PATH_TO_SAVE_FEATURES = 'GLCM/EXP_03/'
 
 for nbits in range(MIN_BITS, MAX_BITS + 1):
     for k in range(MIN_DECIMATION, MAX_DECIMATION + 1):
