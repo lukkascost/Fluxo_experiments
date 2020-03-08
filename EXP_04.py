@@ -1,26 +1,20 @@
-# import comet_ml in the top of your file
-from comet_ml import Experiment
-# Add the following code anywhere in your machine learning file
-from MachineLearn.Classes import DataSet, Data
-
-experiment = Experiment(api_key="9F7edG4BHTWFJJetI2XctSUzM",
-                        project_name="general", workspace="lukkascost")
+import sklearn.metrics as sk
 
 import numpy as np
 import cv2
 import cv2.ml as ml
-import sklearn.metrics as sk
 
+from MachineLearn.Classes import *
 
 KERNEL = "RBF"
 MOLD = 8
 
+oExp = Experiment()
 basemask = np.array([1, 2, 5, 9, 15, 16, 17, 21, 22, 23])
 basemask = basemask - 1
-
 oDataSet = DataSet()
-base = np.loadtxt("GLCM/EXP_02/FEATURES_M1_CM8b.txt", usecols=basemask, delimiter=",")
-classes = np.loadtxt("GLCM/EXP_02/FEATURES_M1_CM8b.txt", dtype=object, usecols=24, delimiter=",")
+base = np.loadtxt("GLCM/EXP_01/FEATURES_M1_CM8b.txt", usecols=basemask, delimiter=",")
+classes = np.loadtxt("GLCM/EXP_01/FEATURES_M1_CM8b.txt", dtype=object, usecols=24, delimiter=",")
 print(len(classes[classes == 'Class 1']))
 print(len(classes[classes == 'Class 2']))
 print(len(classes[classes == 'Class 3']))
@@ -45,13 +39,21 @@ for j in range(50):
     # svm.train_auto(np.float32(oDataSet.attributes[oData.Training_indexes]),
     #                np.float32(oDataSet.labels[oData.Training_indexes]), None, None, params=oData.params)
     results = []  # svm.predict_all(np.float32(oDataSet.attributes[oData.Testing_indexes]))
-    experiment.log_parameters(oData.params,step=j)
     for i in (oDataSet.attributes[oData.Testing_indexes]):
         res, cls = svm.predict(np.float32([i]))
         results.append(cls[0])
     oData.set_results_from_classifier(results, oDataSet.labels[oData.Testing_indexes])
-    print(sk.accuracy_score(oDataSet.labels[oData.Testing_indexes].T[0],np.array(results).T[0]))
-    experiment.log_metric('Acc', sk.accuracy_score(oDataSet.labels[oData.Testing_indexes].T[0],np.array(results).T[0]),step=j)
-    experiment.log_metric('CF', oData.confusion_matrix,step=j)
+    print(sk.accuracy_score(oDataSet.labels[oData.Testing_indexes].T[0], np.array(results).T[0]))
+    print(sk.recall_score(oDataSet.labels[oData.Testing_indexes].T[0], np.array(results).T[0], average=None))
+
     oData.insert_model(svm)
     oDataSet.append(oData)
+oExp.add_data_set(oDataSet,
+                  description="  50 execucoes SVM_{} base FLUXO GLCM 10att arquivos em FEATURES_M1_CM8b.txt. ".format(
+                      KERNEL))
+oExp.save("Objects/EXP04_SVM_{}_{}b.gzip".format(KERNEL, MOLD))
+
+oExp = oExp.load("Objects/EXP04_SVM_{}_{}b.gzip".format(KERNEL, MOLD))
+
+print(oExp)
+print(oExp.experimentResults[0].sum_confusion_matrix / 50)

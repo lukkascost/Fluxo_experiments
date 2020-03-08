@@ -13,8 +13,8 @@ oExp = Experiment()
 basemask = np.array([1, 2, 5, 9, 15, 16, 17, 21, 22, 23])
 basemask = basemask - 1
 oDataSet = DataSet()
-base = np.loadtxt("GLCM/EXP_01/FEATURES_M1_CM8b.txt", usecols=basemask, delimiter=",")
-classes = np.loadtxt("GLCM/EXP_01/FEATURES_M1_CM8b.txt", dtype=object, usecols=24, delimiter=",")
+base = np.loadtxt("GLCM/EXP_02/FEATURES_M1_CM8b.txt", usecols=basemask, delimiter=",")
+classes = np.loadtxt("GLCM/EXP_02/FEATURES_M1_CM8b.txt", dtype=object, usecols=24, delimiter=",")
 print(len(classes[classes == 'Class 1']))
 print(len(classes[classes == 'Class 2']))
 print(len(classes[classes == 'Class 3']))
@@ -49,7 +49,7 @@ for j in range(50):
     oData.insert_model(svm)
     oDataSet.append(oData)
 oExp.add_data_set(oDataSet,
-                  description="  50 execucoes SVM_{} base FLUXO GLCM 10att arquivos em FEATURES_M1_CM8b.txt. ".format(
+                  description="  50 execucoes SVM_{} base FLUXO WON 10att arquivos em FEATURES_M1_CM8b.txt. ".format(
                       KERNEL))
 oExp.save("Objects/EXP03_SVM_{}_{}b.gzip".format(KERNEL, MOLD))
 
