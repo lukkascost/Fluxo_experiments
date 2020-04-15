@@ -6,11 +6,11 @@ from MachineLearn.Classes.Extractors.GLCM import GLCM
 MIN_BITS = 8
 MAX_BITS = 8
 
-MIN_DECIMATION = 1
-MAX_DECIMATION = 1
+MIN_DECIMATION = 4
+MAX_DECIMATION = 4
 
-PATH_TO_IMAGES_FOLDER = 'D:/Repository/Dataset-Fluxo/time-frequency/'
-PATH_TO_SAVE_FEATURES = 'GLCM/EXP_03/'
+PATH_TO_IMAGES_FOLDER = 'D:/Repository/Dataset-Fluxo/Won_data_m4/'
+PATH_TO_SAVE_FEATURES = 'GLCM/EXP_02/'
 
 for nbits in range(MIN_BITS, MAX_BITS + 1):
     for k in range(MIN_DECIMATION, MAX_DECIMATION + 1):
